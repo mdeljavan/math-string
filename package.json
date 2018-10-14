@@ -1,0 +1,15 @@
+{
+  "name": "string-math",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^23.3.5",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.4",
+    "typescript": "^3.1.3"
+  },
+  "scripts": {
+    "test":"jest"
+  }
+}
