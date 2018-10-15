@@ -21,17 +21,33 @@ class MathStrign {
     return input.match(this.multiplicationOrDivisionRegExp)
   }
   solveBetweenParantheses = (input: string) => {
-    let betweenParantes = this.selectParantheses(input)
-    if (this.selectParantheses(input)){
-        
+    let betweenParantes = this.selectParantheses(input);
+    if (!betweenParantes ){
+      return input;
     }
+    betweenParantes.forEach(inp => {
+      if (inp.length > 4 ){
+          this.solveBetweenParantheses(inp)
+      } else {
+        
+      }
+    })
+    return input
   }
   solveMultipicationOrDivision = (input: string) => {
     
+    return input
+  }
+  solveSummationOrSubtraction = (input: string) => {
+
+    return input;
   }
   solve = () => {
-    const input = this.input;
-    this.solveBetweenParantheses(input);
+    let result = this.input;
+    result = this.solveBetweenParantheses(result);
+    result = this.solveMultipicationOrDivision(result);
+    result = this.solveSummationOrSubtraction(result);
+    return result
   };
 }
 export default MathStrign;
