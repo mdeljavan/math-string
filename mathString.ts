@@ -6,7 +6,13 @@ class MathStrign {
     'g'
   );
   multiplicationOrDivisionRegExp:RegExp = new RegExp(`${this.numRegString}[\\*\\/]${this.numRegString}`,'g');
-  sumOrSubtractionRegExp: RegExp = new RegExp(`${this.numRegString}[\\+\\-]${this.numRegString}`,'g')
+  sumOrSubtractionRegExp: RegExp = new RegExp(`${this.numRegString}[\\+\\-]${this.numRegString}`,'g');
+  mathSigns = {
+    multipication: '*',
+    divisin: '/',
+    summation: '+',
+    subtraction: '-'
+  }
   constructor(public input: string) {
     this.input = input.replace(/\s*/g, '');
   }
@@ -16,8 +22,7 @@ class MathStrign {
   selectParantheses = (input: string) => {
     return input.match(this.betweenParenthesesRegExp)
   }
-  selectMultipleOrDivideNumbers = (input: string) => {
-    console.log(this.multiplicationOrDivisionRegExp)
+  selectMultipicationOrDivisionePhrase = (input: string) => {
     return input.match(this.multiplicationOrDivisionRegExp)
   }
   solveBetweenParantheses = (input: string) => {
@@ -26,16 +31,21 @@ class MathStrign {
       return input;
     }
     betweenParantes.forEach(inp => {
-      if (inp.length > 4 ){
-          this.solveBetweenParantheses(inp)
-      } else {
-        
-      }
+      this.solveMathPhrases(inp.replace(/[()]/g, ''))
     })
     return input
   }
-  solveMultipicationOrDivision = (input: string) => {
-    
+  solveMathPhrases = (phrase: string) => {
+    const multipicationOrDivisionPhrase = this.selectMultipicationOrDivisionePhrase(phrase);
+    if (multipicationOrDivisionPhrase) {
+      multipicationOrDivisionPhrase.forEach(phr => {
+        const result = this.solveMultipicationOrDivision(phr);
+        phrase = phrase.replace(new RegExp(`${phr}`), result)
+      })
+    }
+  }
+  solveMultipicationOrDivision = (phrase: string) => {
+    const multipication = phrase.split(this.mathSigns.multipication) 
     return input
   }
   solveSummationOrSubtraction = (input: string) => {
