@@ -1,6 +1,6 @@
 import MathString from './mathString';
 const operator = ['+', '-', '*', '/'];
-let input: string[] = ['1+11+      9-11e23', '+(1+1)+(111+(1111)-111)*(1*1/2/5-1+1)', '3*3','3*-3', '4/2','1+2-4*2+4\\2'];
+let input: string[] = ['1+11+      9-11e23', '+(1+1)+(111+(1111)-111)*(1*1/2/5-1+1)', '3*3','3*-3', '4/2','1+2-4*2+4/2'];
 
 describe('test Regex for inputs', () => {
     const mathString = new MathString(input.join())

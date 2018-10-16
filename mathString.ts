@@ -1,24 +1,24 @@
 class MathStrign {
-  numRegString: string = '[+-]?\\d*\\.?\\d+(e[+-]?\\d+)?';
-  numberRegExp: RegExp = new RegExp(`${this.numRegString}`, 'g');
-  betweenParenthesesRegExp: RegExp = new RegExp(
-    `\\([+-]?${this.numRegString}([\\+\\-\\*\\/]${this.numRegString})*\\)`,
-    'g'
-  );
-  multiplicationOrDivisionRegExp: RegExp = new RegExp(
-    `${this.numRegString}[\\*\\/]${this.numRegString}`,
-    'g'
-  );
-  summationOrSubtractionRegExp: RegExp = new RegExp(
-    `${this.numRegString}[\\+\\-]${this.numRegString}`,
-    'g'
-  );
   mathSigns = {
     multiplication: '*',
-    divisin: '\\',
+    divisin: '/',
     summation: '+',
     subtraction: '-'
   };
+  numRegString: string = '[+-]?\\d*\\.?\\d+(e[+-]?\\d+)?';
+  numberRegExp: RegExp = new RegExp(`${this.numRegString}`, 'g');
+  betweenParenthesesRegExp: RegExp = new RegExp(
+    `\\([+-]?${this.numRegString}([\\${this.mathSigns.summation}\\${this.mathSigns.subtraction}\\${this.mathSigns.multiplication}\\${this.mathSigns.divisin}]${this.numRegString})*\\)`,
+    'g'
+  );
+  multiplicationOrDivisionRegExp: RegExp = new RegExp(
+    `${this.numRegString}[\\${this.mathSigns.multiplication}\\${this.mathSigns.divisin}]${this.numRegString}`
+  );
+  summationOrSubtractionRegExp: RegExp = new RegExp(
+    `${this.numRegString}[\\${this.mathSigns.summation}\\${this.mathSigns.subtraction}]${this.numRegString}`,
+    'g'
+  );
+
   constructor(public input: string) {
     this.input = input.replace(/\s*/g, '');
   }
@@ -54,15 +54,17 @@ class MathStrign {
     if (multiplicationOrDivisionPhrase) {
       multiplicationOrDivisionPhrase.forEach(phr => {
         const _result = this.solveMultiplicationOrDivision(phr);
-        result = phrase.replace(new RegExp(`${phr}`), _result);
+        result = result.replace(new RegExp(`${phr.replace('/','\\/').replace('+','\\+').replace('*','\\*')}`), _result);
       });
     }
     const summationOrSubtractionPhrase = this.selectSummationOrSubtractionPhrase(result)
     if (summationOrSubtractionPhrase) {
       summationOrSubtractionPhrase.forEach(phr => {
         const _result = this.solveSummationOrSubtraction(phr)
-        result = phrase.replace(new RegExp(`${phr}`), _result)
+        result = result.replace(new RegExp(`${phr.replace('+','\\+')}`), _result)
+        console.log(result)
       })
+
     }
     result = result.replace(/[()]/,'');
     return result
