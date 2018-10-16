@@ -5,59 +5,90 @@ class MathStrign {
     `\\([+-]?${this.numRegString}([\\+\\-\\*\\/]${this.numRegString})*\\)`,
     'g'
   );
-  multiplicationOrDivisionRegExp:RegExp = new RegExp(`${this.numRegString}[\\*\\/]${this.numRegString}`,'g');
-  sumOrSubtractionRegExp: RegExp = new RegExp(`${this.numRegString}[\\+\\-]${this.numRegString}`,'g');
+  multiplicationOrDivisionRegExp: RegExp = new RegExp(
+    `${this.numRegString}[\\*\\/]${this.numRegString}`,
+    'g'
+  );
+  summationOrSubtractionRegExp: RegExp = new RegExp(
+    `${this.numRegString}[\\+\\-]${this.numRegString}`,
+    'g'
+  );
   mathSigns = {
-    multipication: '*',
-    divisin: '/',
+    multiplication: '*',
+    divisin: '\\',
     summation: '+',
     subtraction: '-'
-  }
+  };
   constructor(public input: string) {
     this.input = input.replace(/\s*/g, '');
   }
   selectNumbers = (input: string) => {
-    return input.match(this.numberRegExp);
+    return input.replace(/\s*/g,'').match(this.numberRegExp);
   };
   selectParantheses = (input: string) => {
-    return input.match(this.betweenParenthesesRegExp)
-  }
-  selectMultipicationOrDivisionePhrase = (input: string) => {
-    return input.match(this.multiplicationOrDivisionRegExp)
-  }
-  solveBetweenParantheses = (input: string) => {
+    return input.replace(/\s*/g,'').match(this.betweenParenthesesRegExp);
+  };
+  selectMultiplicationOrDivisionePhrase = (input: string) => {
+    return input.replace(/\s*/g,'').match(this.multiplicationOrDivisionRegExp);
+  };
+  selectSummationOrSubtractionPhrase = (input: string) => {
+    return input.replace(/\s*/,'').match(this.summationOrSubtractionRegExp);
+  };
+  solveBetweenParantheses = (input: string): string => {
     let betweenParantes = this.selectParantheses(input);
-    if (!betweenParantes ){
-      return input;
+    let result: string = input;
+    if (!betweenParantes) {
+      return result;
     }
     betweenParantes.forEach(inp => {
-      this.solveMathPhrases(inp.replace(/[()]/g, ''))
-    })
-    return input
-  }
+     const resultPhrase = this.solveMathPhrases(inp);
+     result = input.replace(new RegExp(`${inp}`), resultPhrase)
+    });
+    return this.solveBetweenParantheses(result)
+  };
   solveMathPhrases = (phrase: string) => {
-    const multipicationOrDivisionPhrase = this.selectMultipicationOrDivisionePhrase(phrase);
-    if (multipicationOrDivisionPhrase) {
-      multipicationOrDivisionPhrase.forEach(phr => {
-        const result = this.solveMultipicationOrDivision(phr);
-        phrase = phrase.replace(new RegExp(`${phr}`), result)
+    let result: string = phrase;
+    const multiplicationOrDivisionPhrase = this.selectMultiplicationOrDivisionePhrase(
+      result
+    );
+    if (multiplicationOrDivisionPhrase) {
+      multiplicationOrDivisionPhrase.forEach(phr => {
+        const _result = this.solveMultiplicationOrDivision(phr);
+        result = phrase.replace(new RegExp(`${phr}`), _result);
+      });
+    }
+    const summationOrSubtractionPhrase = this.selectSummationOrSubtractionPhrase(result)
+    if (summationOrSubtractionPhrase) {
+      summationOrSubtractionPhrase.forEach(phr => {
+        const _result = this.solveSummationOrSubtraction(phr)
+        result = phrase.replace(new RegExp(`${phr}`), _result)
       })
     }
-  }
-  solveMultipicationOrDivision = (phrase: string) => {
-    const multipication = phrase.split(this.mathSigns.multipication) 
-    return input
-  }
-  solveSummationOrSubtraction = (input: string) => {
+    result = result.replace(/[()]/,'');
+    return result
+  };
+  solveMultiplicationOrDivision = (phrase: string) => {
+    const numbers = this.selectNumbers(phrase)!;
+    const num1 = numbers[0];
+    const num2 = numbers[1];
+    const result = phrase.includes(this.mathSigns.multiplication)
+      ? +num1 * +num2
+      : +num1 / +num2;
 
-    return input;
+    return result >= 0 ? `+${result.toString()}` : result.toString();
+  };
+  solveSummationOrSubtraction = (phrase: string) => {
+    const numbers = this.selectNumbers(phrase)!
+    const num1 = numbers[0]
+    const num2 = numbers[1]
+    const result = phrase.includes(this.mathSigns.summation) ? +num1 + +num2 : +num1 - +num2
+    return result >= 0 ? `+${result.toString()}` : result.toString()
   }
   solve = () => {
     let result = this.input;
     result = this.solveBetweenParantheses(result);
-    result = this.solveMultipicationOrDivision(result);
-    result = this.solveSummationOrSubtraction(result);
-    return result
+    result = this.solveMathPhrases(result);
+    return result;
   };
 }
 export default MathStrign;
