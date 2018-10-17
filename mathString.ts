@@ -71,7 +71,9 @@ class MathStrign {
   solveSummationOrSubtractionPhrase = (phrase: string): string => {
     phrase = phrase.replace(/(\-\+)|(\+\-)/g,'-').replace(/(\+\+)|(\-\-)/g,'+');
     const summationOrSubtractionPhrase = this.selectSummationOrSubtractionPhrase(phrase)
-    if (!summationOrSubtractionPhrase) return phrase;
+    if (!summationOrSubtractionPhrase) {
+      return phrase 
+    }
     summationOrSubtractionPhrase.forEach(phr => {
       const _result = this.solveSummationOrSubtraction(phr)
       phrase = phrase.replace(phr, _result)
@@ -95,7 +97,7 @@ solveSummationOrSubtraction = (phrase: string) => {
   const result = (mathOperator && mathOperator == this.mathSigns.subtraction) ? +num1 - +num2 : +num1 + +num2
   return result >= 0 ? `+${result.toString()}` : result.toString()
 }
-solve = (input: string) => { 
+ solve = (input: string) => { 
   let result = input.replace(/\s*/g, '');
   result = this.solveBetweenParantheses(result);
   result = this.solveMathPhrases(result);
