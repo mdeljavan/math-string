@@ -9,6 +9,7 @@ let input: string[] = [
   '1+2-4*2+4/2',
   '1+2-(4*2)+4/2',
   '-1+3*((4+4*(3+4))+(3*(-1)*-2)/4)+3-5',
+  '1*2/4*6+4*3'
 ];
 
 describe('test Regex for inputs', () => {
@@ -39,5 +40,6 @@ describe('solve phrases math', () => {
   })
   it('solve a phrase with parantheses', () => {
     expect(mathString.solve(input[7])).toBe('+97.5')
+    expect(mathString.solve(input[8])).toBe('+15')
   })
 })

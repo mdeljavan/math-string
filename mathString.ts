@@ -13,22 +13,21 @@ class MathStrign {
   );
   multiplicationOrDivisionRegExp: RegExp = new RegExp(
     `${this.numRegString}[\\${this.mathSigns.multiplication}\\${this.mathSigns.divisin}]${this.numRegString}`
-    , 'g');
+    );
   summationOrSubtractionRegExp: RegExp = new RegExp(
-    `${this.numRegString}[\\${this.mathSigns.summation}\\${this.mathSigns.subtraction}]${this.numRegString}`,
-    'g'
+    `${this.numRegString}[\\${this.mathSigns.summation}\\${this.mathSigns.subtraction}]${this.numRegString}`
   );
   selectNumbers = (input: string) => {
-    return input.replace(/\s*/g, '').match(this.numberRegExp);
+    return input.match(this.numberRegExp);
   };
   selectParantheses = (input: string) => {
-    return input.replace(/\s*/g, '').match(this.betweenParenthesesRegExp);
+    return input.match(this.betweenParenthesesRegExp);
   };
   selectMultiplicationOrDivisionePhrase = (input: string) => {
-    return input.replace(/\s*/g, '').match(this.multiplicationOrDivisionRegExp);
+    return input.match(this.multiplicationOrDivisionRegExp);
   };
   selectSummationOrSubtractionPhrase = (input: string) => {
-    return input.replace(/\s*/g, '').match(this.summationOrSubtractionRegExp);
+    return input.match(this.summationOrSubtractionRegExp);
   };
   converSpecialChar = (inp: string) => {
    return `${inp
