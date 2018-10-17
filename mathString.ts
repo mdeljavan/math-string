@@ -5,17 +5,18 @@ class MathStrign {
     summation: '+',
     subtraction: '-'
   };
-  numRegString: string = '[+-]?\\d*\\.?\\d+(e[+-]?\\d+)?';
+  numRegString: string = '[+-]?\\d*\\.?\\d+(?:e[+-]?\\d+)?';
   numberRegExp: RegExp = new RegExp(`${this.numRegString}`, 'g');
   betweenParenthesesRegExp: RegExp = new RegExp(
-    `\\([+-]?${this.numRegString}([\\${this.mathSigns.summation}\\${this.mathSigns.subtraction}\\${this.mathSigns.multiplication}\\${this.mathSigns.divisin}]${this.numRegString})*\\)`,
+    `\\(${this.numRegString}(?:[\\${this.mathSigns.summation}\\${this.mathSigns.subtraction}\\${this.mathSigns.multiplication}\\${this.mathSigns.divisin}]${this.numRegString})*\\)`,
     'g'
   );
   multiplicationOrDivisionRegExp: RegExp = new RegExp(
     `${this.numRegString}[\\${this.mathSigns.multiplication}\\${this.mathSigns.divisin}]${this.numRegString}`
     );
   summationOrSubtractionRegExp: RegExp = new RegExp(
-    `${this.numRegString}[\\${this.mathSigns.summation}\\${this.mathSigns.subtraction}]${this.numRegString}`
+    `${this.numRegString}[\\${this.mathSigns.summation}\\${this.mathSigns.subtraction}]${this.numRegString}`,
+    'g'
   );
   selectNumbers = (input: string) => {
     return input.match(this.numberRegExp);
@@ -92,7 +93,7 @@ solveSummationOrSubtraction = (phrase: string) => {
   const numbers = this.selectNumbers(phrase)!;
   const num1 = numbers[0]
   const num2 = numbers[1]
-  const mathOperator = phrase.replace(new RegExp(`(${this.converSpecialChar(num1)}|${this.converSpecialChar(num2)})`,'g'),'')
+  const mathOperator = phrase.replace(new RegExp(`(?:${this.converSpecialChar(num1)}|${this.converSpecialChar(num2)})`,'g'),'')
   const result = (mathOperator && mathOperator == this.mathSigns.subtraction) ? +num1 - +num2 : +num1 + +num2
   return result >= 0 ? `+${result.toString()}` : result.toString()
 }
