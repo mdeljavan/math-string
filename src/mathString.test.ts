@@ -1,7 +1,7 @@
 import MathString from "./mathString";
 const operator = ["+", "-", "*", "/"];
 let input: string[] = [
-  "1+11+      9-11e23",
+  "1+11+       +9-11e23",
   "+(1+1)+(111+(1111)-111)*(1*1/2/5-1+1)",
   "3*3",
   "3*-3",
@@ -36,7 +36,7 @@ describe("test Regex for inputs", () => {
     ]);
   });
 });
-describe("solve phrases math", () => {
+xdescribe("solve phrases math", () => {
   const mathString = new MathString();
   it("solve multiplication and return possitive", () => {
     expect(mathString.solveMultiplicationOrDivision(input[2])).toBe("+9");

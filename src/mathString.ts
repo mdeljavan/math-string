@@ -18,21 +18,26 @@ class MathStrign {
   multiplicationOrDivisionRegExp: RegExp = new RegExp(
     `${this.numRegString}[\\${this.mathSigns.multiplication}\\${
       this.mathSigns.divisin
-    }]${this.numRegString}`
+    }]${this.numRegString}`,
+    "g"
   );
   summationOrSubtractionRegExp: RegExp = new RegExp(
     `${this.numRegString}[\\${this.mathSigns.summation}\\${
       this.mathSigns.subtraction
-    }]${this.numRegString}`
+    }]${this.numRegString}`,
+    "g"
   );
   selectNumbers = (input: string) => {
-    return input.match(this.numberRegExp);
+    const inp = this.removeSpacesFromInput(input);
+    return inp.match(this.numberRegExp);
   };
   selectParantheses = (input: string) => {
-    return input.match(this.betweenParenthesesRegExp);
+    const inp = this.removeSpacesFromInput(input);
+    return inp.match(this.betweenParenthesesRegExp);
   };
   selectMultiplicationOrDivisionePhrase = (input: string) => {
-    return input.match(this.multiplicationOrDivisionRegExp);
+    const inp = this.removeSpacesFromInput(input);
+    return inp.match(this.multiplicationOrDivisionRegExp);
   };
   selectSummationOrSubtractionPhrase = (input: string) => {
     return input.match(this.summationOrSubtractionRegExp);
@@ -117,9 +122,11 @@ class MathStrign {
         : +num1 + +num2;
     return result >= 0 ? `+${result.toString()}` : result.toString();
   };
+  removeSpacesFromInput = (inp: string) => {
+    return inp.replace(/\s*/g, "");
+  };
   solve = (input: string) => {
-    let result = input.replace(/\s*/g, "");
-    result = this.solveBetweenParantheses(result);
+    let result = this.solveBetweenParantheses(input);
     result = this.solveMathPhrases(result);
     return result;
   };
