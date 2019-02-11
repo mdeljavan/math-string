@@ -1,4 +1,4 @@
-import { solveBetweenParantheses, solveMathPhrases } from "./solveModules";
+import { solveBetweenParantheses, solveMathPhrases } from './solveModules';
 
 const solve = (input: string) => {
   let result = solveBetweenParantheses(input);
