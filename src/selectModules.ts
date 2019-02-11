@@ -1,10 +1,11 @@
-import { removeSpacesFromInput } from "./utility";
 import {
-  numberRegExp,
   betweenParenthesesRegExp,
-  multiplicationOrDivisionRegExp,
+  divisionRegExp,
+  multiplicationRegExp,
+  numberRegExp,
   summationOrSubtractionRegExp
-} from "./regulaExpersions";
+} from './regulaExpersions';
+import { removeSpacesFromInput } from './utility';
 
 export const selectNumbers = (input: string) => {
   const inp = removeSpacesFromInput(input);
@@ -14,9 +15,13 @@ export const selectParantheses = (input: string) => {
   const inp = removeSpacesFromInput(input);
   return inp.match(betweenParenthesesRegExp);
 };
-export const selectMultiplicationOrDivisionePhrase = (input: string) => {
+export const selectMultiplicationPhrase = (input: string) => {
   const inp = removeSpacesFromInput(input);
-  return inp.match(multiplicationOrDivisionRegExp);
+  return inp.match(multiplicationRegExp);
+};
+export const selectDivisionPharse = (input: string) => {
+  const inp = removeSpacesFromInput(input);
+  return inp.match(divisionRegExp);
 };
 export const selectSummationOrSubtractionPhrase = (input: string) => {
   return input.match(summationOrSubtractionRegExp);

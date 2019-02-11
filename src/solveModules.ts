@@ -1,15 +1,16 @@
+import { mathSigns } from './regulaExpersions';
 import {
+  selectDivisionPharse,
+  selectMultiplicationPhrase,
+  selectNumbers,
   selectParantheses,
-  selectMultiplicationOrDivisionePhrase,
-  selectSummationOrSubtractionPhrase,
-  selectNumbers
-} from "./selectModules";
-import { mathSigns } from "./regulaExpersions";
-import { converSpecialChar } from "./utility";
+  selectSummationOrSubtractionPhrase
+} from './selectModules';
+import { converSpecialChar } from './utility';
 
 export const solveBetweenParantheses = (input: string): string => {
   let result: string = input;
-  let betweenParantes = selectParantheses(result);
+  const betweenParantes = selectParantheses(result);
   if (!betweenParantes) {
     return result;
   }
@@ -20,24 +21,41 @@ export const solveBetweenParantheses = (input: string): string => {
   return solveBetweenParantheses(result);
 };
 export const solveMathPhrases = (phrase: string) => {
-  let result: string = solveMultiplicationOrDivisionPhrase(phrase);
+  let result: string = solveDivisionPharse(phrase);
+  result = solveMultiplicationPhrase(result);
   result = solveSummationOrSubtractionPhrase(result);
-  result = result.replace(/[()]/g, "");
+  result = result.replace(/[()]/g, '');
   return result;
 };
-export const solveMultiplicationOrDivisionPhrase = (phrase: string): string => {
-  const multiplicationOrDivisionPhrase = selectMultiplicationOrDivisionePhrase(
-    phrase
-  );
-  if (!multiplicationOrDivisionPhrase) return phrase;
-  multiplicationOrDivisionPhrase.forEach(phr => {
-    const _result = solveMultiplicationOrDivision(phr);
+export const solveDivisionPharse = (phrase: string): string => {
+  const divisionPhrase = selectDivisionPharse(phrase);
+  if (!divisionPhrase) {
+    return phrase;
+  }
+  divisionPhrase.forEach(phr => {
+    const _result = convertDivisionToMultiplication(phr);
     phrase = phrase.replace(phr, _result);
   });
-  return solveMultiplicationOrDivisionPhrase(phrase);
+  return solveDivisionPharse(phrase);
+};
+export const convertDivisionToMultiplication = (phrase: string): string => {
+  const _result = 1 / +selectNumbers(phrase)![0];
+  return `*${_result}`;
+};
+export const solveMultiplicationPhrase = (phrase: string): string => {
+  const multiplicationOrDivisionPhrase = selectMultiplicationPhrase(phrase);
+  if (!multiplicationOrDivisionPhrase) {
+    return phrase;
+  }
+  multiplicationOrDivisionPhrase.forEach(phr => {
+    const _result = solveMultiplication(phr);
+    phrase = phrase.replace(phr, _result);
+  });
+  return solveMultiplicationPhrase(phrase);
 };
 export const solveSummationOrSubtractionPhrase = (phrase: string): string => {
-  phrase = phrase.replace(/(\-\+)|(\+\-)/g, "-").replace(/(\+\+)|(\-\-)/g, "+");
+  // replace +- or -+ to - and ++ or -- to +
+  phrase = phrase.replace(/(\-\+)|(\+\-)/g, '-').replace(/(\+\+)|(\-\-)/g, '+');
   const summationOrSubtractionPhrase = selectSummationOrSubtractionPhrase(
     phrase
   );
@@ -50,13 +68,11 @@ export const solveSummationOrSubtractionPhrase = (phrase: string): string => {
   });
   return solveSummationOrSubtractionPhrase(phrase);
 };
-export const solveMultiplicationOrDivision = (phrase: string) => {
+export const solveMultiplication = (phrase: string) => {
   const numbers = selectNumbers(phrase)!;
   const num1 = numbers[0];
   const num2 = numbers[1];
-  const result = phrase.includes(mathSigns.multiplication)
-    ? +num1 * +num2
-    : +num1 / +num2;
+  const result = +num1 * +num2;
   return result >= 0 ? `+${result.toString()}` : result.toString();
 };
 export const solveSummationOrSubtraction = (phrase: string) => {
@@ -64,8 +80,8 @@ export const solveSummationOrSubtraction = (phrase: string) => {
   const num1 = numbers[0];
   const num2 = numbers[1];
   const mathOperator = phrase.replace(
-    new RegExp(`(${converSpecialChar(num1)}|${converSpecialChar(num2)})`, "g"),
-    ""
+    new RegExp(`(${converSpecialChar(num1)}|${converSpecialChar(num2)})`, 'g'),
+    ''
   );
   const result =
     mathOperator && mathOperator == mathSigns.subtraction

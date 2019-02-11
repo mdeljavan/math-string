@@ -4,7 +4,11 @@
         "tslint:recommended",
         "tslint-config-prettier"
     ],
-    "jsRules": {},
-    "rules": {},
+    "jsRules": {
+        
+    },
+    "rules": {
+        "quotemark": [true, "single"]
+    },
     "rulesDirectory": []
 }
