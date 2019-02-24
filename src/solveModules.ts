@@ -54,6 +54,7 @@ export const solveMultiplicationPhrase = (phrase: string): string => {
   return solveMultiplicationPhrase(phrase);
 };
 export const solveSummationOrSubtractionPhrase = (phrase: string): string => {
+  // replace +- or -+ to - and ++ or -- to +
   phrase = phrase.replace(/(\-\+)|(\+\-)/g, '-').replace(/(\+\+)|(\-\-)/g, '+');
   const summationOrSubtractionPhrase = selectSummationOrSubtractionPhrase(
     phrase
