@@ -27,6 +27,10 @@
     "*.ts": [
       "prettier-tslint fix",
       "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
     ]
   }
 }
