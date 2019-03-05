@@ -6,7 +6,7 @@ import {
   selectParantheses,
   selectSummationOrSubtractionPhrase
 } from './selectModules';
-import { converSpecialChar } from './utility';
+import { convertSpecialChar } from './utility';
 
 export const solveBetweenParantheses = (input: string): string => {
   let result: string = input;
@@ -80,7 +80,10 @@ export const solveSummationOrSubtraction = (phrase: string) => {
   const num1 = numbers[0];
   const num2 = numbers[1];
   const mathOperator = phrase.replace(
-    new RegExp(`(${converSpecialChar(num1)}|${converSpecialChar(num2)})`, 'g'),
+    new RegExp(
+      `(${convertSpecialChar(num1)}|${convertSpecialChar(num2)})`,
+      'g'
+    ),
     ''
   );
   const result =
