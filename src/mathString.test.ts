@@ -22,7 +22,7 @@ const input: string[] = [
   '1*2/4*6+4*3'
 ];
 
-xdescribe('test Regex for inputs', () => {
+describe('test Regex for inputs', () => {
   it('select numbers', () => {
     expect(selectNumbers(input[0])).toEqual(['1', '+11', '+9', '-11e23']);
   });
@@ -34,26 +34,26 @@ xdescribe('test Regex for inputs', () => {
     ]);
   });
   it('select multiple or divide two numbers', () => {
-    expect(selectMultiplicationPhrase(input[1])).toEqual(['1*1', '2/5']);
+    expect(selectMultiplicationPhrase(input[1])).toEqual(['1*1']);
   });
 });
 describe('solve phrases math', () => {
-  xit('solve multiplication and return possitive', () => {
+  it('solve multiplication and return possitive', () => {
     expect(solveMultiplication(input[2])).toBe('+9');
   });
-  xit('solve multiplication and return negative', () => {
+  it('solve multiplication and return negative', () => {
     expect(solveMultiplication(input[3])).toBe('-9');
   });
-  xit('solve division', () => {
-    expect(solveDivisionPharse(input[4])).toBe('*2');
+  it('solve division', () => {
+    expect(solveDivisionPharse(input[4])).toBe('4*0.5');
   });
-  xit('solve a phrase without parantheses', () => {
+  it('solve a phrase without parantheses', () => {
     expect(solveMathPhrases(input[5])).toBe('-3');
   });
   it('solve a phrase with parantheses', () => {
-    expect(solve(input[7])).toBe('+97.5');
-    expect(solve(input[8])).toBe('+15');
+    expect(solve(input[7])).toBe('97.5');
+    expect(solve(input[8])).toBe('15');
     expect(solve(input[5])).toBe('-3');
-    expect(solve(input[4])).toBe('+2');
+    expect(solve(input[4])).toBe('2');
   });
 });
