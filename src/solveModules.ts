@@ -87,8 +87,6 @@ export const solveSummationOrSubtraction = (phrase: string) => {
     ''
   );
   const result =
-    mathOperator && mathOperator == mathSigns.subtraction
-      ? +num1 - +num2
-      : +num1 + +num2;
+    mathOperator == mathSigns.subtraction ? +num1 - +num2 : +num1 + +num2;
   return result >= 0 ? `+${result.toString()}` : result.toString();
 };
