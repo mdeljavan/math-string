@@ -21,7 +21,8 @@ export const solveBetweenParantheses = (input: string): string => {
   return solveBetweenParantheses(result);
 };
 export const solveMathPhrases = (phrase: string) => {
-  let result: string = solveDivisionPharse(phrase);
+  let result = solveSevralPositiveAndNegativeSings(phrase);
+  result = solveDivisionPharse(phrase);
   result = solveMultiplicationPhrase(result);
   result = solveSummationOrSubtractionPhrase(result);
   result = result.replace(/[()]/g, '');
@@ -54,8 +55,6 @@ export const solveMultiplicationPhrase = (phrase: string): string => {
   return solveMultiplicationPhrase(phrase);
 };
 export const solveSummationOrSubtractionPhrase = (phrase: string): string => {
-  // replace +- or -+ to - and ++ or -- to +
-  phrase = phrase.replace(/(\-\+)|(\+\-)/g, '-').replace(/(\+\+)|(\-\-)/g, '+');
   const summationOrSubtractionPhrase = selectSummationOrSubtractionPhrase(
     phrase
   );
@@ -89,4 +88,21 @@ export const solveSummationOrSubtraction = (phrase: string) => {
   const result =
     mathOperator == mathSigns.subtraction ? +num1 - +num2 : +num1 + +num2;
   return result >= 0 ? `+${result.toString()}` : result.toString();
+};
+export const solveSevralPositiveAndNegativeSings = (phrase: string): string => {
+  const regExpPosNeg = /(\-\+)|(\+\-)/g;
+  const regExpPosPosOrNegNeg = /(\+\+)|(\-\-)/g;
+  if (regExpPosNeg.test(phrase)) {
+    phrase.match(regExpPosNeg)!.forEach(phr => {
+      phrase = phrase.replace(phr, '-');
+    });
+    return solveSevralPositiveAndNegativeSings(phrase);
+  }
+  if (regExpPosPosOrNegNeg.test(phrase)) {
+    phrase.match(regExpPosPosOrNegNeg)!.forEach(phr => {
+      phrase = phrase.replace(phr, '+');
+    });
+    return solveSevralPositiveAndNegativeSings(phrase);
+  }
+  return phrase;
 };

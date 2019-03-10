@@ -8,7 +8,8 @@ import {
 import {
   solveDivisionPharse,
   solveMathPhrases,
-  solveMultiplication
+  solveMultiplication,
+  solveSevralPositiveAndNegativeSings
 } from './solveModules';
 const operator = ['+', '-', '*', '/'];
 const input: string[] = [
@@ -20,13 +21,15 @@ const input: string[] = [
   '1+2-4*2+4/2',
   '1+2-(4*2)+4/2',
   '-1+3*((4+4*(3+4))+(3*(-1)*-2)/4)+3-5',
-  '1*2/4*6+4*3'
+  '1*2/4*6+4*3',
+  '1-+-+--+2',
+  '1+++2----3--+-+4',
 ];
 const faultInput = [
   '1**1*1***2',
   '1//3/3/////4',
   '1....2+1.2+1...2',
-  '1+(2+2+2+3+(3)'
+  '1+(2+2+2+3+(3)',
 ];
 describe('test Regex for inputs', () => {
   it('select numbers', () => {
@@ -36,7 +39,7 @@ describe('test Regex for inputs', () => {
     expect(selectParantheses(input[1])).toEqual([
       '(1+1)',
       '(1111)',
-      '(1*1/2/5-1+1)'
+      '(1*1/2/5-1+1)',
     ]);
   });
   it('select multiple or divide two numbers', () => {
@@ -44,6 +47,12 @@ describe('test Regex for inputs', () => {
   });
 });
 describe('solve phrases math', () => {
+  it('resolve sevral positive and negtive signs', () => {
+    expect(solveSevralPositiveAndNegativeSings(input[9])).toBe('1+2');
+  });
+  it('resolve sevral positive and negtive signs', () => {
+    expect(solveSevralPositiveAndNegativeSings(input[10])).toBe('1+2+3-4');
+  });
   it('solve multiplication and return possitive', () => {
     expect(solveMultiplication(input[2])).toBe('+9');
   });
