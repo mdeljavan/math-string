@@ -1,11 +1,16 @@
 {
   "name": "math-string",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "./lib/mathString.js",
   "license": "MIT",
   "files": [
     "*.md",
     "lib"
+  ],
+  "keywords": [
+    "math",
+    "string to math",
+    "solve without eval"
   ],
   "repository": {
     "type": "git",
