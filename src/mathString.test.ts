@@ -24,6 +24,7 @@ const input: string[] = [
   '1*2/4*6+4*3',
   '1-+-+--+2',
   '1+++2----3--+-+4',
+  '1+2^3+2^(4^2+7)',
 ];
 const faultInput = [
   '1**1*1***2',
@@ -70,6 +71,7 @@ describe('solve phrases math', () => {
     expect(solve(input[8])).toBe('15');
     expect(solve(input[5])).toBe('-3');
     expect(solve(input[4])).toBe('2');
+    expect(solve(input[11])).toBe('8388617');
   });
 });
 describe('detect fault input', () => {

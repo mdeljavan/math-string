@@ -4,6 +4,7 @@ import {
   selectMultiplicationPhrase,
   selectNumbers,
   selectParantheses,
+  selectPowerPhrase,
   selectSummationOrSubtractionPhrase
 } from './selectModules';
 import { convertSpecialChar } from './utility';
@@ -22,7 +23,8 @@ export const solveBetweenParantheses = (input: string): string => {
 };
 export const solveMathPhrases = (phrase: string) => {
   let result = solveSevralPositiveAndNegativeSings(phrase);
-  result = solveDivisionPharse(phrase);
+  result = solvePowerPhrase(result);
+  result = solveDivisionPharse(result);
   result = solveMultiplicationPhrase(result);
   result = solveSummationOrSubtractionPhrase(result);
   result = result.replace(/[()]/g, '');
@@ -105,4 +107,22 @@ export const solveSevralPositiveAndNegativeSings = (phrase: string): string => {
     return solveSevralPositiveAndNegativeSings(phrase);
   }
   return phrase;
+};
+export const solvePowerPhrase = (phrase: string): string => {
+  const powerPhrase = selectPowerPhrase(phrase);
+  if (!powerPhrase) {
+    return phrase;
+  }
+  powerPhrase.forEach(phr => {
+    const _result = solvePower(phr);
+    phrase = phrase.replace(phr, _result);
+  });
+  return solvePowerPhrase(phrase);
+};
+export const solvePower = (phr: string): string => {
+  const numbers = selectNumbers(phr)!;
+  const num1 = +numbers[0];
+  const num2 = +numbers[1];
+  const result = Math.pow(num1, num2);
+  return result > 0 ? `+${result}` : result.toString();
 };

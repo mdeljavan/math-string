@@ -3,6 +3,7 @@ import {
   divisionRegExp,
   multiplicationRegExp,
   numberRegExp,
+  powerRegExp,
   summationOrSubtractionRegExp
 } from './regulaExpersions';
 import { removeSpacesFromInput } from './utility';
@@ -25,4 +26,7 @@ export const selectDivisionPharse = (input: string) => {
 };
 export const selectSummationOrSubtractionPhrase = (input: string) => {
   return input.match(summationOrSubtractionRegExp);
+};
+export const selectPowerPhrase = (input: string) => {
+  return input.match(powerRegExp);
 };
