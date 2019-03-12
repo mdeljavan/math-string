@@ -1,7 +1,7 @@
 # math-stirng
 
 math-stirng is a JavaScript library that solve phrase mathematics without use eval() function.
-it solves The Four Basic Mathematical Operations in this time but in future will add more actions to it.
+it solves The Four Basic Mathematical Operations and power a number in this time but in future will add more actions to it.
 
 ## Installation
 
@@ -16,10 +16,12 @@ yarn add math-string
 ```
 
 ## Usage
-
 ```JavaScript
 import mathString from 'math-string';
 const result = mathString('1+2'); //3
+const result = mathString('-1+3*((4+4*(3+4))+(3*(-1)*-2)/4)+3-5'); //97.5
+const result = mathString('1+2^3+2^(4^2+7)'); //8388617
+const result = mathString('2^(2^5)'); //4294967296
 const res = mathString('1+4+9+('); // throw an error that are not equal number of opening and closing parentheses
 const res = mathString('1+4+9..+8'); // throw an error that use . more than onec in same place
 ```

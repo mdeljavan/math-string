@@ -40,6 +40,7 @@ const inputsAndResults = {
     ['-1+3*((4+4*(3+4))+(3*(-1)*-2)/4)+3-5', '97.5'],
     ['1*2/4*6+4*3', '15'],
     ['1+2^3+2^(4^2+7)', '8388617'],
+    ['2^(2^5)', '4294967296'],
   ],
 };
 const faultInput = [
@@ -84,7 +85,7 @@ describe('solve a multiplication phrase', () => {
     }
   );
 });
-describe('resolve several positive and nagative signs', () => {
+describe('resolve several positive and negative signs', () => {
   test.each(inputsAndResults.solvePositivesAndNegatives)(
     '%s',
     (phr, expected) => {
