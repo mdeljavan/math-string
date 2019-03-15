@@ -1,6 +1,7 @@
 import {
   betweenParenthesesRegExp,
   divisionRegExp,
+  lastPowerRegExp,
   multiplicationRegExp,
   numberRegExp,
   powerRegExp,
@@ -29,4 +30,7 @@ export const selectSummationOrSubtractionPhrase = (input: string) => {
 };
 export const selectPowerPhrase = (input: string) => {
   return input.match(powerRegExp);
+};
+export const selectLastPowerPhrase = (input: string) => {
+  return input.match(lastPowerRegExp);
 };

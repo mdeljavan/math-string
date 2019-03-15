@@ -5,7 +5,7 @@ import {
   solveDivisionPharse,
   solveMathPhrases,
   solveMultiplication,
-  solvePowerPhrase,
+  solvePowerPhrases,
   solveSevralPositiveAndNegativeSings,
   solveSummationOrSubtractionPhrase
 } from './solveModules';
@@ -33,7 +33,13 @@ const inputsAndResults = {
     ['-1-2', '-3'],
     ['-1+2', '+1'],
   ],
-  solvePowerPhrase: [['1^2', '+1'], ['2^-1', '+0.5']],
+  solvePowerPhrase: [
+    ['1^2', '+1'],
+    ['2^-1', '+0.5'],
+    ['2^1^5^3^4', '+2'],
+    ['2^2^2', '+16'],
+    ['1^2^4', '+1'],
+  ],
   solve: [
     ['1+2-4*2+4/2', '-3'],
     ['1+2-(4*2)+4/2', '-3'],
@@ -95,7 +101,7 @@ describe('resolve several positive and negative signs', () => {
 });
 describe('solve a power phrase', () => {
   test.each(inputsAndResults.solvePowerPhrase)('%s', (phr, expected) => {
-    expect(solvePowerPhrase(phr)).toEqual(expected);
+    expect(solvePowerPhrases(phr)).toEqual(expected);
   });
 });
 describe('solve a summation or subtraction phrase', () => {

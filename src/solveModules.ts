@@ -1,6 +1,7 @@
-import { mathSigns } from './regulaExpersions';
+import { lastPowerRegExp, mathSigns } from './regulaExpersions';
 import {
   selectDivisionPharse,
+  selectLastPowerPhrase,
   selectMultiplicationPhrase,
   selectNumbers,
   selectParantheses,
@@ -23,7 +24,7 @@ export const solveBetweenParantheses = (input: string): string => {
 };
 export const solveMathPhrases = (phrase: string) => {
   let result = solveSevralPositiveAndNegativeSings(phrase);
-  result = solvePowerPhrase(result);
+  result = solvePowerPhrases(result);
   result = solveDivisionPharse(result);
   result = solveMultiplicationPhrase(result);
   result = solveSummationOrSubtractionPhrase(result);
@@ -108,14 +109,25 @@ export const solveSevralPositiveAndNegativeSings = (phrase: string): string => {
   }
   return phrase;
 };
+export const solvePowerPhrases = (phrase: string): string => {
+  const powerPhrases = selectPowerPhrase(phrase);
+  if (!powerPhrases) {
+    return phrase;
+  }
+  powerPhrases.forEach(phr => {
+    const _result = solvePowerPhrase(phr);
+    phrase = phrase.replace(phr, _result);
+  });
+  return solvePowerPhrases(phrase);
+};
 export const solvePowerPhrase = (phrase: string): string => {
-  const powerPhrase = selectPowerPhrase(phrase);
+  const powerPhrase = selectLastPowerPhrase(phrase);
   if (!powerPhrase) {
     return phrase;
   }
   powerPhrase.forEach(phr => {
-    const _result = solvePower(phr);
-    phrase = phrase.replace(phr, _result);
+    const result = solvePower(phr);
+    phrase = phrase.replace(lastPowerRegExp, result);
   });
   return solvePowerPhrase(phrase);
 };

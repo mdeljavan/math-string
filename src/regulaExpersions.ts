@@ -6,7 +6,10 @@ export const mathSigns = {
   power: '^',
 };
 const numRegString: string = '[+-]?\\d*\\.?\\d+(e[+-]?\\d+)?';
-export const numberRegExp: RegExp = new RegExp(`${numRegString}`, 'g');
+export const numberRegExp: RegExp = new RegExp(
+  `(${numRegString}|[+-]?Infinity)`,
+  'g'
+);
 export const betweenParenthesesRegExp: RegExp = new RegExp(
   `\\(${numRegString}([\\${mathSigns.summation}\\${mathSigns.subtraction}\\${
     mathSigns.multiplication
@@ -28,6 +31,10 @@ export const summationOrSubtractionRegExp: RegExp = new RegExp(
   'g'
 );
 export const powerRegExp: RegExp = new RegExp(
-  `${numRegString}\\^${numRegString}`,
+  `((?:${numRegString}\\^)+${numRegString})`,
+  'g'
+);
+export const lastPowerRegExp: RegExp = new RegExp(
+  `(${numRegString}\\^${numRegString})$`,
   'g'
 );
