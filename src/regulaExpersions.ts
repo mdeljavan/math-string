@@ -5,11 +5,8 @@ export const mathSigns = {
   subtraction: '-',
   power: '^',
 };
-const numRegString: string = '[+-]?\\d*\\.?\\d+(e[+-]?\\d+)?';
-export const numberRegExp: RegExp = new RegExp(
-  `(${numRegString}|[+-]?Infinity)`,
-  'g'
-);
+const numRegString: string = '[+-]?(\\d*\\.?\\d+(e[+-]?\\d+)?|[+-]?Infinity)';
+export const numberRegExp: RegExp = new RegExp(`${numRegString}`, 'g');
 export const betweenParenthesesRegExp: RegExp = new RegExp(
   `\\(${numRegString}([\\${mathSigns.summation}\\${mathSigns.subtraction}\\${
     mathSigns.multiplication
